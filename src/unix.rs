@@ -426,7 +426,7 @@ impl MmapInner {
         let offset = offset as isize - alignment as isize;
         let len = len + alignment;
         unsafe {
-            if libc::madvise(self.ptr.offset(offset), len, advice) != 0 {
+            if libc::madvise(self.ptr.offset(offset) as *mut u8, len, advice) != 0 {
                 Err(io::Error::last_os_error())
             } else {
                 Ok(())
